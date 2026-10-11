@@ -1,2 +1,0 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./web-CB4T-1Bd.js","./index-BaDLFjLu.js","./rolldown-runtime-hePW80VL.js","./phaser-DwlVtrz6.js","./index.esm-3bQM00Fh.js","./index.esm-CtCJ1BkR.js","./index.esm-C4ityQ6P.js"])))=>i.map(i=>d[i]);
-import{i as e,n as t}from"./index-BaDLFjLu.js";var n=e(`FirebaseAppCheck`,{web:()=>t(()=>import(`./web-CB4T-1Bd.js`).then(e=>new e.FirebaseAppCheckWeb),__vite__mapDeps([0,1,2,3,4,5,6]),import.meta.url)});export{n as FirebaseAppCheck};
