@@ -1,34 +1,388 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" class="lang-es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Garlic Legends: IDLE RPG</title>
+    <meta name="description" content="Un ajo cazavampiros contra el Conde Vampiro: RPG idle de fantasía épica para móvil. Combate automático, botín épico, clases, mascotas, clanes y aventuras sin fin." />
+    <meta name="theme-color" content="#140a1f" />
     <link rel="icon" href="icon.png" />
+    <link rel="apple-touch-icon" href="icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Garlic Legends: IDLE RPG" />
+    <meta property="og:description" content="Un ajo cazavampiros contra el Conde Vampiro. ¡Juega gratis! · A vampire-hunting garlic against the Vampire Count. Play free!" />
+    <meta property="og:image" content="https://ivanredondogarcia.github.io/garlic-legends/assets/og.jpg" />
+    <meta property="og:url" content="https://ivanredondogarcia.github.io/garlic-legends/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700;800&family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700&display=swap" rel="stylesheet" />
     <style>
-      body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #1a0f24;
-             color: #f2eaf7; font-family: 'Trebuchet MS', 'Segoe UI', Roboto, sans-serif; text-align: center; padding: 24px 16px; }
-      img { width: 160px; height: 160px; border-radius: 32px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); }
-      h1 { color: #ffd35c; margin: 20px 0 4px; }
-      .sub { color: #ff8a5c; font-weight: bold; letter-spacing: 2px; margin: 0 0 18px; }
-      p { max-width: 520px; line-height: 1.5; margin: 8px auto; }
-      a { color: #9be38a; }
-      .links { margin-top: 28px; }
+      :root {
+        --bg: #140a1f;
+        --bg2: #1d1030;
+        --panel: #251638;
+        --panel2: #2f1d47;
+        --line: rgba(255, 211, 92, 0.25);
+        --gold: #ffd35c;
+        --gold2: #ffb627;
+        --purple: #9b5cff;
+        --text: #f2eaf7;
+        --muted: #cfc3dc;
+        --green: #9be38a;
+        --red: #e0413a;
+        --discord: #5865f2;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Alegreya Sans', 'Segoe UI', Roboto, sans-serif;
+        font-size: 18px;
+        line-height: 1.55;
+        overflow-x: hidden;
+      }
+      img { max-width: 100%; display: block; }
+      a { color: var(--gold); }
+      .lang-es [data-lang='en'], .lang-en [data-lang='es'] { display: none !important; }
+
+      /* ---------- Cabecera ---------- */
+      header {
+        position: fixed; inset: 0 0 auto 0; z-index: 20; height: 64px; display: flex; align-items: center; gap: 16px;
+        padding: 0 16px; transition: background 0.3s, box-shadow 0.3s;
+      }
+      header.solid { background: rgba(20, 10, 31, 0.92); box-shadow: 0 2px 18px rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); }
+      .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-family: 'Cinzel', serif; font-weight: 700; }
+      .brand img { width: 38px; height: 38px; border-radius: 10px; }
+      nav { display: flex; gap: 18px; margin-left: auto; }
+      nav a { color: var(--muted); text-decoration: none; font-weight: 700; font-size: 16px; }
+      nav a:hover { color: var(--gold); }
+      .lang { display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+      .lang button { background: none; border: 0; color: var(--muted); font: inherit; font-weight: 800; font-size: 14px; padding: 6px 12px; cursor: pointer; }
+      .lang button.on { background: var(--gold); color: #2a1600; }
+      @media (max-width: 860px) { nav { display: none; } .lang { margin-left: auto; } }
+
+      /* ---------- Portada ---------- */
+      /* Ordenador: texto a la izquierda e ilustración a la derecha (el ajo se ve entero); de fondo, la misma ilustración
+         difuminada. Móvil: la ilustración arriba y el texto debajo. */
+      .hero { position: relative; min-height: 100vh; display: flex; align-items: center; padding: 96px 16px 72px; overflow: hidden; }
+      .hero::before {
+        content: ''; position: absolute; inset: -40px; background: url('assets/title.webp') center / cover no-repeat;
+        filter: blur(22px) brightness(0.42) saturate(1.2);
+      }
+      .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 70%, var(--bg) 100%); }
+      .hero-grid { position: relative; z-index: 2; width: 100%; max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; align-items: center; }
+      .hero-inner { text-align: left; }
+      .hero-inner .buttons { justify-content: flex-start; }
+      .hero-inner .tagline { margin-left: 0; }
+      .hero-art {
+        width: 100%; max-height: 80vh; aspect-ratio: 2 / 3; object-fit: cover; object-position: center 40%; border-radius: 28px;
+        border: 2px solid rgba(255, 211, 92, 0.55); box-shadow: 0 0 0 6px rgba(155, 92, 255, 0.18), 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 80px rgba(255, 180, 60, 0.25);
+        animation: bob2 6s ease-in-out infinite;
+      }
+      @media (max-width: 900px) {
+        .hero { padding: 72px 0 56px; align-items: flex-start; }
+        .hero-grid { grid-template-columns: 1fr; gap: 0; }
+        .hero-art { order: -1; aspect-ratio: auto; height: 58vh; max-height: none; border-radius: 0; border: 0; box-shadow: none; animation: none;
+          -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent 100%); mask-image: linear-gradient(180deg, #000 70%, transparent 100%); }
+        .hero-inner { text-align: center; padding: 0 16px; margin-top: -54px; }
+        .hero-inner .buttons { justify-content: center; }
+        .hero-inner .tagline { margin-left: auto; }
+      }
+      .logo {
+        font-family: 'Cinzel Decorative', serif; font-weight: 900; font-size: clamp(44px, 9vw, 92px); line-height: 1; margin: 0;
+        background: linear-gradient(180deg, #fff6c9 0%, var(--gold) 45%, #d98a1c 100%); -webkit-background-clip: text; background-clip: text;
+        color: transparent; filter: drop-shadow(0 4px 0 #4a1d0a) drop-shadow(0 10px 24px rgba(0, 0, 0, 0.6));
+      }
+      .ribbon {
+        display: inline-block; margin: 14px 0 18px; padding: 6px 22px; border-radius: 6px; background: linear-gradient(180deg, #ff5a4e, #b9201a);
+        font-family: 'Cinzel', serif; font-weight: 700; letter-spacing: 4px; font-size: 18px; box-shadow: 0 4px 0 #6e0f0b, 0 8px 20px rgba(0, 0, 0, 0.5);
+      }
+      .tagline { font-size: clamp(19px, 2.6vw, 24px); color: #fff; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); margin: 0 auto 26px; max-width: 620px; }
+      .buttons { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-width: 172px; padding: 14px 22px; border-radius: 16px;
+        font-weight: 800; font-size: 19px; text-decoration: none; color: #fff; border: 0; cursor: pointer; transition: transform 0.15s, filter 0.15s;
+        box-shadow: 0 5px 0 rgba(0, 0, 0, 0.35), 0 10px 24px rgba(0, 0, 0, 0.35);
+      }
+      .btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+      .btn svg { width: 24px; height: 24px; flex: none; }
+      .btn-play { background: linear-gradient(180deg, #ffe17a, var(--gold2)); color: #3a1d00; }
+      .btn-store { background: #1e1e26; border: 1px solid #44405a; }
+      .btn-store small { display: block; font-size: 12px; font-weight: 700; color: var(--muted); line-height: 1; }
+      .btn-store span { text-align: left; line-height: 1.1; }
+      .btn-discord { background: var(--discord); }
+      .scroll-hint { position: absolute; bottom: 18px; left: 50%; z-index: 2; transform: translateX(-50%); color: var(--muted); font-size: 26px; animation: bob 1.8s ease-in-out infinite; text-decoration: none; }
+      @keyframes bob { 50% { transform: translate(-50%, 8px); } }
+      .spark { position: absolute; z-index: 3; width: 6px; height: 6px; border-radius: 50%; background: #fff7c0; box-shadow: 0 0 12px 3px rgba(255, 211, 92, 0.8); animation: float 7s ease-in-out infinite; opacity: 0; }
+      @keyframes float { 0% { opacity: 0; transform: translateY(20px); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(-120px); } }
+
+      /* ---------- Secciones ---------- */
+      section { padding: 88px 16px; position: relative; }
+      section.alt { background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 12%, var(--bg2) 88%, var(--bg) 100%); }
+      .wrap { max-width: 1120px; margin: 0 auto; }
+      h2 {
+        font-family: 'Cinzel', serif; font-weight: 700; font-size: clamp(30px, 4.6vw, 46px); text-align: center; margin: 0 0 8px; color: var(--gold);
+        text-shadow: 0 3px 0 #3d1f0a, 0 8px 22px rgba(0, 0, 0, 0.5);
+      }
+      .lead { text-align: center; color: var(--muted); max-width: 680px; margin: 0 auto 44px; font-size: 20px; }
+      .divider { width: 140px; height: 2px; margin: 14px auto 18px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+
+      /* Características */
+      .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+      @media (max-width: 900px) { .features { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 580px) { .features { grid-template-columns: 1fr; } }
+      .card {
+        background: linear-gradient(180deg, var(--panel2), var(--panel)); border: 1px solid var(--line); border-radius: 20px; padding: 22px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); transition: transform 0.2s, border-color 0.2s;
+      }
+      .card:hover { transform: translateY(-4px); border-color: rgba(255, 211, 92, 0.6); }
+      .feature img { width: 84px; height: 84px; object-fit: contain; margin-bottom: 10px; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5)); }
+      .feature h3 { font-family: 'Cinzel', serif; margin: 0 0 6px; font-size: 22px; color: #fff; }
+      .feature p { margin: 0; color: var(--muted); }
+
+      /* Capturas */
+      .carousel { position: relative; }
+      .shots { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 8px 4px 22px; scrollbar-width: thin; scrollbar-color: var(--purple) transparent; }
+      .shots img { flex: none; width: 250px; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 22px; scroll-snap-align: center; border: 2px solid var(--line); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5); }
+      .arrow { position: absolute; top: 45%; z-index: 3; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: rgba(20, 10, 31, 0.85); color: var(--gold); font-size: 24px; cursor: pointer; }
+      .arrow.prev { left: -8px; } .arrow.next { right: -8px; }
+      @media (max-width: 700px) { .arrow { display: none; } .shots img { width: 210px; } }
+
+      /* Mundo */
+      .zones { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+      @media (max-width: 1000px) { .zones { grid-template-columns: repeat(3, 1fr); } }
+      @media (max-width: 640px) { .zones { grid-template-columns: repeat(2, 1fr); } }
+      .zone { position: relative; border-radius: 18px; overflow: hidden; aspect-ratio: 3 / 4; border: 1px solid var(--line); box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45); }
+      .zone > img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+      .zone:hover > img.bg { transform: scale(1.06); }
+      .zone::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, 0) 30%, rgba(14, 6, 22, 0.92) 100%); }
+      .zone .boss { position: absolute; z-index: 2; right: -6px; bottom: 58px; width: 62%; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.7)); }
+      .zone .info { position: absolute; z-index: 3; left: 12px; right: 12px; bottom: 10px; }
+      .zone .num { font-size: 13px; font-weight: 800; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; }
+      .zone h3 { margin: 0; font-family: 'Cinzel', serif; font-size: 17px; line-height: 1.15; }
+      .zone .bossname { font-size: 14px; color: var(--muted); }
+      .note { text-align: center; color: var(--muted); margin-top: 28px; }
+
+      /* Personajes */
+      .classes { display: grid; gap: 20px; }
+      .class { display: grid; grid-template-columns: 220px 1fr; gap: 18px; align-items: center; }
+      @media (max-width: 700px) { .class { grid-template-columns: 1fr; text-align: center; } }
+      .class h3 { font-family: 'Cinzel', serif; margin: 0; font-size: 24px; }
+      .class .role { color: var(--muted); font-size: 16px; }
+      .forms { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+      .form { text-align: center; }
+      .form img { width: 100%; aspect-ratio: 1; object-fit: contain; background: radial-gradient(circle at 50% 60%, rgba(155, 92, 255, 0.35), transparent 70%); border-radius: 16px; }
+      .form > span { display: block; font-size: 14px; color: var(--muted); line-height: 1.2; margin-top: 4px; }
+      .form .lv { color: var(--gold); font-weight: 800; }
+      .pets { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 36px; }
+      .pet { width: 120px; text-align: center; }
+      .pet img { width: 100px; height: 100px; object-fit: contain; margin: 0 auto; filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.5)); }
+      .pet span { font-size: 14px; color: var(--muted); line-height: 1.2; display: block; }
+      h3.sub { text-align: center; font-family: 'Cinzel', serif; color: #fff; font-size: 26px; margin: 48px 0 0; }
+
+      /* Novedades */
+      .news { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+      @media (max-width: 900px) { .news { grid-template-columns: 1fr; } }
+      .news .ver { font-family: 'Cinzel', serif; font-size: 24px; color: var(--gold); margin: 0; }
+      .news .date { color: var(--muted); font-size: 15px; }
+      .news ul { margin: 10px 0 0; padding-left: 20px; }
+      .news li { margin: 4px 0; }
+
+      /* Preguntas */
+      .faq { max-width: 820px; margin: 0 auto; display: grid; gap: 12px; }
+      details { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 4px 20px; }
+      summary { cursor: pointer; font-weight: 800; font-size: 19px; padding: 14px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+      summary::-webkit-details-marker { display: none; }
+      summary::after { content: '+'; color: var(--gold); font-size: 24px; line-height: 1; }
+      details[open] summary::after { content: '−'; }
+      details p { margin: 0 0 16px; color: var(--muted); }
+
+      /* Llamada final y pie */
+      .cta { text-align: center; padding: 100px 16px; background: radial-gradient(ellipse at 50% 60%, rgba(155, 92, 255, 0.35), transparent 65%), var(--bg); }
+      .cta img { width: 140px; margin: 0 auto 16px; filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6)); animation: bob2 3s ease-in-out infinite; }
+      @keyframes bob2 { 50% { transform: translateY(-10px); } }
+      footer { border-top: 1px solid var(--line); padding: 36px 16px 48px; text-align: center; color: var(--muted); font-size: 16px; }
+      footer .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 22px; margin-bottom: 14px; }
+      footer a { color: var(--muted); }
+
+      /* Aparecer al bajar */
+      .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s ease, transform 0.7s ease; }
+      .reveal.in { opacity: 1; transform: none; }
+      @media (prefers-reduced-motion: reduce) {
+        .reveal { opacity: 1; transform: none; transition: none; }
+        .spark, .scroll-hint, .cta img { animation: none; }
+        html { scroll-behavior: auto; }
+      }
     </style>
   </head>
   <body>
+    <header id="top">
+      <a class="brand" href="#"><img src="icon.png" alt="" />Garlic Legends</a>
+      <nav>
+        <a href="#features" data-en="Features">Características</a>
+        <a href="#world" data-en="World">Mundo</a>
+        <a href="#heroes" data-en="Characters">Personajes</a>
+        <a href="#news" data-en="News">Novedades</a>
+        <a href="#faq" data-en="FAQ">Preguntas</a>
+      </nav>
+      <div class="lang" role="group" aria-label="Idioma / Language">
+        <button type="button" data-set-lang="es" class="on">ES</button>
+        <button type="button" data-set-lang="en">EN</button>
+      </div>
+    </header>
+
     <main>
-      <img src="icon.png" alt="Garlic Legends" />
-      <h1>Garlic Legends</h1>
-      <p class="sub">IDLE RPG</p>
-      <p>¡Un ajo muy valiente contra el Conde Vampiro! RPG idle de fantasía épica para móvil.</p>
-      <p>A very brave garlic against the Vampire Count! An epic fantasy idle RPG for mobile.</p>
-      <p class="links">
-        <a href="privacy.html">Política de privacidad / Privacy Policy</a><br /><br />
-        <a href="terms.html">Condiciones de uso / Terms of Use</a><br /><br />
-        <a href="delete-account.html">Borrar tu cuenta / Delete your account</a><br /><br />
-        <a href="mailto:garliclegendscontact@gmail.com">garliclegendscontact@gmail.com</a>
-      </p>
+      <section class="hero">
+        <span class="spark" style="left:8%;top:62%;animation-delay:0s"></span><span class="spark" style="left:18%;top:30%;animation-delay:1.6s"></span><span class="spark" style="left:30%;top:75%;animation-delay:3.1s"></span><span class="spark" style="left:46%;top:40%;animation-delay:0.8s"></span><span class="spark" style="left:63%;top:70%;animation-delay:2.4s"></span><span class="spark" style="left:75%;top:28%;animation-delay:4.0s"></span><span class="spark" style="left:86%;top:55%;animation-delay:1.2s"></span><span class="spark" style="left:93%;top:80%;animation-delay:5.2s"></span>
+        <div class="hero-grid">
+        <div class="hero-inner">
+          <h1 class="logo">Garlic Legends</h1>
+          <div class="ribbon">IDLE RPG</div>
+          <p class="tagline" data-en="A vampire-hunting garlic against the Vampire Count. Automatic battles, epic loot and endless adventures.">
+            Un ajo cazavampiros contra el Conde Vampiro. Combates automáticos, botín épico y aventuras sin fin.
+          </p>
+          <div class="buttons"><a class="btn btn-play" href="https://ivanredondogarcia.github.io/garlic-legends/play/">⚔️ <span data-en="Play now">Jugar ahora</span></a><a class="btn btn-store" href="#faq"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#34d399" d="M4 2.5v19l10-9.5z"/><path fill="#60a5fa" d="M4 2.5 14 12l3-2.9z"/><path fill="#f87171" d="M4 21.5 14 12l3 2.9z"/><path fill="#fbbf24" d="m17 9.1 3.4 1.9c.8.5.8 1.5 0 2l-3.4 1.9L14 12z"/></svg><span><small data-en="Coming soon to">Muy pronto en</small>Google Play</span></a><a class="btn btn-discord" href="https://discord.gg/Q7ATe9JPTj"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.6 1.3a18.3 18.3 0 0 0-5.6 0L8.6 3a19.7 19.7 0 0 0-4.9 1.5C.6 9.1-.3 13.6.1 18a19.9 19.9 0 0 0 6 3l1.3-2.1a12.9 12.9 0 0 1-2-1l.5-.4a14.2 14.2 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 1l1.3 2.1a19.8 19.8 0 0 0 6-3c.5-5.1-.8-9.6-3.6-13.6ZM8 15.3c-1.2 0-2.2-1.1-2.2-2.4S6.8 10.5 8 10.5s2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Zm8 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Z"/></svg> Discord</a></div>
+        </div>
+        <img class="hero-art" src="assets/title.webp" alt="Garlic Legends" />
+        </div>
+        <a class="scroll-hint" href="#features" aria-label="Bajar">⌄</a>
+      </section>
+
+      <section id="features">
+        <div class="wrap">
+          <h2 class="reveal" data-en="Why you'll love it">Por qué te va a encantar</h2>
+          <div class="divider"></div>
+          <p class="lead reveal" data-en="An idle RPG you can play in short sessions: your garlic keeps fighting even when you're away.">
+            Un RPG idle para jugar a ratos: tu ajo sigue luchando aunque no estés.
+          </p>
+          <div class="features"><div class="card feature reveal"><img src="assets/f_garlic_plant.webp" alt="" loading="lazy" /><h3 data-en="Pull magic garlic">Arranca ajos mágicos</h3><p data-en="Every garlic from the Garden drops a piece of gear: 15 rarities, from Common to Absolute. Upgrade the Garden for better loot.">Cada ajo del Huerto trae una pieza de equipo: 15 rarezas, de Común a Absoluta. Mejora el Huerto para que salgan mejores.</p></div><div class="card feature reveal"><img src="assets/f_enemy_count.webp" alt="" loading="lazy" /><h3 data-en="Automatic battles">Combate automático</h3><p data-en="Your garlic fights bats, zombies and werewolves on its own, plus bosses with their own tricks. Even while you sleep!">Tu ajo pelea solo contra murciélagos, zombis y hombres lobo, y contra jefes con trucos propios. ¡También mientras duermes!</p></div><div class="card feature reveal"><img src="assets/f_hero_warrior_4.webp" alt="" loading="lazy" /><h3 data-en="Classes and evolutions">Clases y evoluciones</h3><p data-en="Warrior, Black Garlic or Archer: each class with 4 forms and its own special skill.">Guerrero, Ajo Negro o Arquero: cada clase con 4 formas y su habilidad especial.</p></div><div class="card feature reveal"><img src="assets/f_pet_saffron.webp" alt="" loading="lazy" /><h3 data-en="Pets and skills">Mascotas y habilidades</h3><p data-en="50 pets that fight by your side and 50 skills to cast in battle, across 10 rarities.">50 mascotas que luchan a tu lado y 50 habilidades que lanzas en combate, de 10 rarezas.</p></div><div class="card feature reveal"><img src="assets/f_icon_tower.webp" alt="" loading="lazy" /><h3 data-en="Adventures">Aventuras</h3><p data-en="Dungeons, the Count’s Tower, the Mine, the Magic Farm, mounts, relics and seasonal events.">Mazmorras, la Torre del Conde, la Mina, la Granja Mágica, monturas, reliquias y eventos de temporada.</p></div><div class="card feature reveal"><img src="assets/f_icon_clan.webp" alt="" loading="lazy" /><h3 data-en="Clans, friends and Arena">Clanes, amigos y Arena</h3><p data-en="Join a clan, beat its weekly boss, send gifts to your friends and climb the leaderboards.">Únete a un clan, derrota a su jefe semanal, manda regalos a tus amigos y sube en las clasificaciones.</p></div></div>
+        </div>
+      </section>
+
+      <section class="alt" id="shots">
+        <div class="wrap">
+          <h2 class="reveal" data-en="Screenshots">Capturas</h2>
+          <div class="divider"></div>
+          <div class="carousel reveal">
+            <button class="arrow prev" type="button" aria-label="Anterior">‹</button>
+            <div class="shots" id="shotList"><img src="assets/shot_es_01.webp" data-src-es="assets/shot_es_01.webp" data-src-en="assets/shot_en_01.webp" alt="" loading="lazy" /><img src="assets/shot_es_02.webp" data-src-es="assets/shot_es_02.webp" data-src-en="assets/shot_en_02.webp" alt="" loading="lazy" /><img src="assets/shot_es_03.webp" data-src-es="assets/shot_es_03.webp" data-src-en="assets/shot_en_03.webp" alt="" loading="lazy" /><img src="assets/shot_es_04.webp" data-src-es="assets/shot_es_04.webp" data-src-en="assets/shot_en_04.webp" alt="" loading="lazy" /><img src="assets/shot_es_05.webp" data-src-es="assets/shot_es_05.webp" data-src-en="assets/shot_en_05.webp" alt="" loading="lazy" /><img src="assets/shot_es_06.webp" data-src-es="assets/shot_es_06.webp" data-src-en="assets/shot_en_06.webp" alt="" loading="lazy" /><img src="assets/shot_es_07.webp" data-src-es="assets/shot_es_07.webp" data-src-en="assets/shot_en_07.webp" alt="" loading="lazy" /><img src="assets/shot_es_08.webp" data-src-es="assets/shot_es_08.webp" data-src-en="assets/shot_en_08.webp" alt="" loading="lazy" /></div>
+            <button class="arrow next" type="button" aria-label="Siguiente">›</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="world">
+        <div class="wrap">
+          <h2 class="reveal" data-en="A world of legends">Un mundo de leyenda</h2>
+          <div class="divider"></div>
+          <p class="lead reveal" data-en="Ten lands, each with its own boss. Defeat the Vampire Count… and his mother, the Queen of the Night.">
+            Diez tierras, cada una con su jefe. Derrota al Conde Vampiro… y a su madre, la Reina de la Noche.
+          </p>
+          <div class="zones"><div class="zone reveal"><img class="bg" src="assets/zone_huerta.webp" alt="" loading="lazy" /><img class="boss" src="assets/boss_bigBat.webp" alt="" loading="lazy" /><div class="info"><div class="num"><span data-en="Stages 1–10">Etapas 1–10</span></div><h3 data-en="Enchanted Forest">Bosque Encantado</h3><div class="bossname">☠ <span data-en="Giant Bat">Murcielagón</span></div></div></div><div class="zone reveal"><img class="bg" src="assets/zone_molinos.webp" alt="" loading="lazy" /><img class="boss" src="assets/boss_millerZombie.webp" alt="" loading="lazy" /><div class="info"><div class="num"><span data-en="Stages 11–20">Etapas 11–20</span></div><h3 data-en="Golden Desert">Desierto Dorado</h3><div class="bossname">☠ <span data-en="Pharaoh Mummy">Momia Faraona</span></div></div></div><div class="zone reveal"><img class="bg" src="assets/zone_pueblo.webp" alt="" loading="lazy" /><img class="boss" src="assets/boss_belfryVampire.webp" alt="" loading="lazy" /><div class="info"><div class="num"><span data-en="Stages 21–30">Etapas 21–30</span></div><h3 data-en="Lost Jungle">Jungla Perdida</h3><div class="bossname">☠ <span data-en="Ruins Vampiress">Vampiresa de las Ruinas</span></div></div></div><div class="zone reveal"><img class="bg" src="assets/zone_bosque.webp" alt="" loading="lazy" /><img class="boss" src="assets/boss_greatWolf.webp" alt="" loading="lazy" /><div class="info"><div class="num"><span data-en="Stages 31–40">Etapas 31–40</span></div><h3 data-en="Frozen Peaks">Montañas Heladas</h3><div class="bossname">☠ <span data-en="Great Howling Wolf">Gran Lobo Aullador</span></div></div></div><div class="zone reveal"><img class="bg" src="assets/zone_castillo.webp" alt="" loading="lazy" /><img class="boss" src="assets/boss_countVampire.webp" alt="" loading="lazy" /><div class="info"><div class="num"><span data-en="Stages 41–50">Etapas 41–50</span></div><h3 data-en="The Count&#x27;s Castle">Castillo del Conde</h3><div class="bossname">☠ <span data-en="Vampire Count">Conde Vampiro</span></div></div></div><div class="zone reveal"><img class="bg" src="assets/zone_pantano.webp" alt="" loading="lazy" /><img class="boss" src="assets/boss_swampWitch.webp" alt="" loading="lazy" /><div class="info"><div class="num"><span data-en="Stages 51–60">Etapas 51–60</span></div><h3 data-en="Misty Swamp">Pantano Brumoso</h3><div class="bossname">☠ <span data-en="Swamp Witch">Bruja del Pantano</span></div></div></div><div class="zone reveal"><img class="bg" src="assets/zone_islas.webp" alt="" loading="lazy" /><img class="boss" src="assets/boss_skullCaptain.webp" alt="" loading="lazy" /><div class="info"><div class="num"><span data-en="Stages 61–70">Etapas 61–70</span></div><h3 data-en="Ghost Ship Isles">Islas del Barco Fantasma</h3><div class="bossname">☠ <span data-en="Captain Skull">Capitán Calavera</span></div></div></div><div class="zone reveal"><img class="bg" src="assets/zone_volcan.webp" alt="" loading="lazy" /><img class="boss" src="assets/boss_magmaDragon.webp" alt="" loading="lazy" /><div class="info"><div class="num"><span data-en="Stages 71–80">Etapas 71–80</span></div><h3 data-en="Blazing Volcano">Volcán Ardiente</h3><div class="bossname">☠ <span data-en="Magma Dragon">Dragón de Magma</span></div></div></div><div class="zone reveal"><img class="bg" src="assets/zone_nubes.webp" alt="" loading="lazy" /><img class="boss" src="assets/boss_colossalGargoyle.webp" alt="" loading="lazy" /><div class="info"><div class="num"><span data-en="Stages 81–90">Etapas 81–90</span></div><h3 data-en="City in the Clouds">Ciudad en las Nubes</h3><div class="bossname">☠ <span data-en="Colossal Gargoyle">Gárgola Colosal</span></div></div></div><div class="zone reveal"><img class="bg" src="assets/zone_luna.webp" alt="" loading="lazy" /><img class="boss" src="assets/boss_nightQueen.webp" alt="" loading="lazy" /><div class="info"><div class="num"><span data-en="Stages 91–100">Etapas 91–100</span></div><h3 data-en="Black Moon Kingdom">Reino de la Luna Negra</h3><div class="bossname">☠ <span data-en="Queen of the Night">Reina de la Noche</span></div></div></div></div>
+          <p class="note reveal" data-en="After stage 100 the world starts again, tougher every lap: the adventure never ends!">
+            Tras la etapa 100 el mundo vuelve a empezar, cada vuelta más difícil: ¡la aventura no acaba nunca!
+          </p>
+        </div>
+      </section>
+
+      <section class="alt" id="heroes">
+        <div class="wrap">
+          <h2 class="reveal" data-en="Evolve your garlic">Evoluciona a tu ajo</h2>
+          <div class="divider"></div>
+          <p class="lead reveal" data-en="At level 30 choose your class for good, then evolve at levels 50, 70 and 100.">
+            En el nivel 30 eliges tu clase para siempre y evolucionas en los niveles 50, 70 y 100.
+          </p>
+          <div class="classes"><div class="card class reveal"><div><h3 data-en="Warrior Clove">Diente Guerrero</h3><div class="role" data-en="Melee · very tough">Cuerpo a cuerpo · aguanta mucho</div></div><div class="forms"><div class="form"><img src="assets/form_warrior_1.webp" alt="" loading="lazy" /><span class="lv"><span data-en="Lv.">Nv.</span> 30</span><span><span data-en="Warrior Clove">Diente Guerrero</span></span></div><div class="form"><img src="assets/form_warrior_2.webp" alt="" loading="lazy" /><span class="lv"><span data-en="Lv.">Nv.</span> 50</span><span><span data-en="Warrior Bulb">Cabeza Guerrera</span></span></div><div class="form"><img src="assets/form_warrior_3.webp" alt="" loading="lazy" /><span class="lv"><span data-en="Lv.">Nv.</span> 70</span><span><span data-en="Battle Braid">Ristra de Batalla</span></span></div><div class="form"><img src="assets/form_warrior_4.webp" alt="" loading="lazy" /><span class="lv"><span data-en="Lv.">Nv.</span> 100</span><span><span data-en="Royal Paladin Garlic">Ajo Real Paladín</span></span></div></div></div><div class="card class reveal"><div><h3 data-en="Black Garlic">Ajo Negro</h3><div class="role" data-en="Mage · high damage, ignores defense">Mago · mucho daño, ignora defensas</div></div><div class="forms"><div class="form"><img src="assets/form_mage_1.webp" alt="" loading="lazy" /><span class="lv"><span data-en="Lv.">Nv.</span> 30</span><span><span data-en="Black Garlic">Ajo Negro</span></span></div><div class="form"><img src="assets/form_mage_2.webp" alt="" loading="lazy" /><span class="lv"><span data-en="Lv.">Nv.</span> 50</span><span><span data-en="Sorcerer Bulb">Cabeza Hechicera</span></span></div><div class="form"><img src="assets/form_mage_3.webp" alt="" loading="lazy" /><span class="lv"><span data-en="Lv.">Nv.</span> 70</span><span><span data-en="Dark Braid">Ristra Oscura</span></span></div><div class="form"><img src="assets/form_mage_4.webp" alt="" loading="lazy" /><span class="lv"><span data-en="Lv.">Nv.</span> 100</span><span><span data-en="Royal Necromancer Garlic">Ajo Real Nigromante</span></span></div></div></div><div class="card class reveal"><div><h3 data-en="Sprout Archer">Ajete Arquero</h3><div class="role" data-en="Ranged · fast and accurate">A distancia · rápido y certero</div></div><div class="forms"><div class="form"><img src="assets/form_archer_1.webp" alt="" loading="lazy" /><span class="lv"><span data-en="Lv.">Nv.</span> 30</span><span><span data-en="Sprout Archer">Ajete Arquero</span></span></div><div class="form"><img src="assets/form_archer_2.webp" alt="" loading="lazy" /><span class="lv"><span data-en="Lv.">Nv.</span> 50</span><span><span data-en="Marksman Bulb">Cabeza Tiradora</span></span></div><div class="form"><img src="assets/form_archer_3.webp" alt="" loading="lazy" /><span class="lv"><span data-en="Lv.">Nv.</span> 70</span><span><span data-en="Hunter Braid">Ristra Cazadora</span></span></div><div class="form"><img src="assets/form_archer_4.webp" alt="" loading="lazy" /><span class="lv"><span data-en="Lv.">Nv.</span> 100</span><span><span data-en="Royal Wind Garlic">Ajo Real del Viento</span></span></div></div></div></div>
+          <h3 class="sub reveal" data-en="Pets that fight by your side">Mascotas que luchan a tu lado</h3>
+          <div class="pets reveal"><div class="pet"><img src="assets/pet_pumpkin.webp" alt="" loading="lazy" /><span data-en="Lantern Pumpkin">Calabaza Farolillo</span></div><div class="pet"><img src="assets/pet_chili.webp" alt="" loading="lazy" /><span data-en="Inferno Chili">Guindilla Infernal</span></div><div class="pet"><img src="assets/pet_melon.webp" alt="" loading="lazy" /><span data-en="Royal Melon">Melón Real</span></div><div class="pet"><img src="assets/pet_saffron.webp" alt="" loading="lazy" /><span data-en="Saffron Flower">Flor de Azafrán</span></div><div class="pet"><img src="assets/pet_mushroomKing.webp" alt="" loading="lazy" /><span data-en="Mushroom King">Champiñón Rey</span></div><div class="pet"><img src="assets/pet_moonPumpkin.webp" alt="" loading="lazy" /><span data-en="Moon Pumpkin">Calabaza Lunar</span></div><div class="pet"><img src="assets/pet_starOnion.webp" alt="" loading="lazy" /><span data-en="Star Onion">Cebolla Estelar</span></div><div class="pet"><img src="assets/pet_ancientOlive.webp" alt="" loading="lazy" /><span data-en="Ancient Olive Tree">Olivo Milenario</span></div></div>
+        </div>
+      </section>
+
+      <section id="news">
+        <div class="wrap">
+          <h2 class="reveal" data-en="Latest news">Novedades</h2>
+          <div class="divider"></div>
+          <div class="news"><div class="card reveal"><p class="ver"><span data-en="Version">Versión</span> 0.3.4</p><div class="date" data-en="October 16, 2026">16 de octubre de 2026</div><ul data-lang="es"><li>Auto del Huerto con filtro para hacerte tu build, y hasta ×20 ajos a la vez</li><li>Sistemas que se abren día a día, con un calendario de «Próximas novedades»</li><li>Rarezas altas más difíciles de conseguir: cada una vale más</li><li>Botón de Discord en Ajustes</li></ul><ul data-lang="en"><li>Garden Auto with filters to build your gear, and up to ×20 garlics at once</li><li>Features that unlock day by day, with a «Coming soon» calendar</li><li>High rarities are harder to get: each one is worth more</li><li>Discord button in Settings</li></ul></div><div class="card reveal"><p class="ver"><span data-en="Version">Versión</span> 0.3.3</p><div class="date" data-en="October 16, 2026">16 de octubre de 2026</div><ul data-lang="es"><li>Servidores: clasificaciones, carreras, Arena y clanes por servidor</li><li>5 rarezas de equipo nuevas (Divina, Astral, Cósmica, Infinita y Absoluta) y Huerto hasta el nivel 30</li><li>Habilidades mucho más rápidas y forja hasta el nivel 999</li><li>Al abrir el juego, solo las recompensas AFK; avatares nuevos para tu perfil</li></ul><ul data-lang="en"><li>Servers: rankings, races, Arena and clans per server</li><li>5 new gear rarities (Divine, Astral, Cosmic, Infinite and Absolute) and Garden up to level 30</li><li>Much faster skills and forge up to level 999</li><li>Only AFK rewards when you open the game; new profile avatars</li></ul></div><div class="card reveal"><p class="ver"><span data-en="Version">Versión</span> 0.3.1</p><div class="date" data-en="October 13, 2026">13 de octubre de 2026</div><ul data-lang="es"><li>5 zonas nuevas hasta la Reina de la Noche</li><li>Granja Mágica, monturas renovadas y avatares de perfil</li><li>Misiones guiadas más dinámicas y el juego arranca mucho más rápido</li></ul><ul data-lang="en"><li>5 new zones up to the Queen of the Night</li><li>Magic Farm, revamped mounts and profile avatars</li><li>More dynamic guided quests and much faster start-up</li></ul></div></div>
+        </div>
+      </section>
+
+      <section class="alt" id="faq">
+        <div class="wrap">
+          <h2 class="reveal" data-en="Frequently asked questions">Preguntas frecuentes</h2>
+          <div class="divider"></div>
+          <div class="faq"><details class="reveal"><summary data-en="Is it free?">¿Es gratis?</summary><p data-en="Yes. Everything can be earned by playing; paid items only speed things up. Rewarded ads are always optional.">Sí. Todo se puede conseguir jugando; lo de pago solo adelanta. Los anuncios con premio son siempre opcionales.</p></details><details class="reveal"><summary data-en="Where can I play?">¿Dónde puedo jugar?</summary><p data-en="Right now in your phone or computer browser (the «Play now» button). The Android app is in closed testing and coming soon to Google Play.">Ya en el navegador del móvil o del ordenador (botón «Jugar ahora»). La app de Android está en prueba cerrada y llegará pronto a Google Play.</p></details><details class="reveal"><summary data-en="Is my progress saved? Can I move it to another phone?">¿Se guarda mi partida? ¿Puedo pasarla a otro móvil?</summary><p data-en="It saves automatically. Link your account in Settings → Game → Connect Google and sign in with it on the other phone or in the browser.">Se guarda sola. Conecta tu cuenta en Ajustes → Partida → Conectar Google y entra con ella en el otro móvil o en el navegador.</p></details><details class="reveal"><summary data-en="Where do I get gift codes?">¿Dónde consigo códigos de regalo?</summary><p data-en="We post them on our Discord. Redeem them in the game: Settings → Info → Redeem code.">Los publicamos en nuestro Discord. Se canjean en el juego: Ajustes → Información → Canjear código.</p></details><details class="reveal"><summary data-en="I found a bug, what should I do?">He encontrado un fallo, ¿qué hago?</summary><p data-en="Tell us in the bugs channel on Discord or from the game: Settings → Info → Send feedback.">Cuéntanoslo en el canal de fallos del Discord o desde el juego: Ajustes → Información → Enviar comentario.</p></details></div>
+        </div>
+      </section>
+
+      <div class="cta">
+        <img src="assets/hero.webp" alt="" />
+        <h2 data-en="Ready for the adventure?">¿Listo para la aventura?</h2>
+        <p class="lead" data-en="Free to play on your phone or in your browser.">Gratis, en el móvil o en el navegador.</p>
+        <div class="buttons"><a class="btn btn-play" href="https://ivanredondogarcia.github.io/garlic-legends/play/">⚔️ <span data-en="Play now">Jugar ahora</span></a><a class="btn btn-store" href="#faq"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#34d399" d="M4 2.5v19l10-9.5z"/><path fill="#60a5fa" d="M4 2.5 14 12l3-2.9z"/><path fill="#f87171" d="M4 21.5 14 12l3 2.9z"/><path fill="#fbbf24" d="m17 9.1 3.4 1.9c.8.5.8 1.5 0 2l-3.4 1.9L14 12z"/></svg><span><small data-en="Coming soon to">Muy pronto en</small>Google Play</span></a><a class="btn btn-discord" href="https://discord.gg/Q7ATe9JPTj"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.6 1.3a18.3 18.3 0 0 0-5.6 0L8.6 3a19.7 19.7 0 0 0-4.9 1.5C.6 9.1-.3 13.6.1 18a19.9 19.9 0 0 0 6 3l1.3-2.1a12.9 12.9 0 0 1-2-1l.5-.4a14.2 14.2 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 1l1.3 2.1a19.8 19.8 0 0 0 6-3c.5-5.1-.8-9.6-3.6-13.6ZM8 15.3c-1.2 0-2.2-1.1-2.2-2.4S6.8 10.5 8 10.5s2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Zm8 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Z"/></svg> Discord</a></div>
+      </div>
     </main>
+
+    <footer>
+      <div class="links">
+        <a href="https://discord.gg/Q7ATe9JPTj">Discord</a>
+        <a href="mailto:garliclegendscontact@gmail.com">garliclegendscontact@gmail.com</a>
+        <a href="privacy.html" data-en="Privacy">Privacidad</a>
+        <a href="terms.html" data-en="Terms">Condiciones</a>
+        <a href="delete-account.html" data-en="Delete account">Borrar cuenta</a>
+      </div>
+      <div>© 2026 LanceGamesDV · Garlic Legends: IDLE RPG · <span data-en="Version">Versión</span> 0.3.4</div>
+    </footer>
+
+    <script>
+      // Idioma: el del navegador (español o inglés), se recuerda si se cambia
+      (function () {
+        var nodes = document.querySelectorAll('[data-en]');
+        nodes.forEach(function (n) { n.setAttribute('data-es', n.textContent.trim()); });
+        var shots = document.querySelectorAll('[data-src-en]');
+        function setLang(lang) {
+          document.documentElement.lang = lang;
+          document.documentElement.className = 'lang-' + lang;
+          nodes.forEach(function (n) { n.textContent = n.getAttribute('data-' + lang); });
+          shots.forEach(function (img) { img.src = img.getAttribute('data-src-' + lang); });
+          document.querySelectorAll('[data-set-lang]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-set-lang') === lang); });
+          try { localStorage.setItem('gl-lang', lang); } catch (e) {}
+        }
+        var saved = null;
+        try { saved = localStorage.getItem('gl-lang'); } catch (e) {}
+        var lang = saved || ((navigator.language || 'es').toLowerCase().indexOf('es') === 0 ? 'es' : 'en');
+        if (lang !== 'es') setLang(lang);
+        document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+          b.addEventListener('click', function () { setLang(b.getAttribute('data-set-lang')); });
+        });
+      })();
+
+      // Cabecera sólida al bajar
+      (function () {
+        var header = document.getElementById('top');
+        function onScroll() { header.classList.toggle('solid', window.scrollY > 40); }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+      })();
+
+      // Aparecer al bajar
+      (function () {
+        var items = document.querySelectorAll('.reveal');
+        if (!('IntersectionObserver' in window)) { items.forEach(function (i) { i.classList.add('in'); }); return; }
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+        }, { threshold: 0.12 });
+        items.forEach(function (i) { io.observe(i); });
+      })();
+
+      // Flechas del carrusel de capturas
+      (function () {
+        var list = document.getElementById('shotList');
+        document.querySelector('.arrow.prev').addEventListener('click', function () { list.scrollBy({ left: -280, behavior: 'smooth' }); });
+        document.querySelector('.arrow.next').addEventListener('click', function () { list.scrollBy({ left: 280, behavior: 'smooth' }); });
+      })();
+    </script>
   </body>
 </html>
