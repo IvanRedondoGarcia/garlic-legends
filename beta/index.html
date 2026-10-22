@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="es" class="lang-es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Garlic Legends · Beta</title>
+    <meta name="description" content="Apúntate a la beta de Garlic Legends: IDLE RPG en Android, o juega gratis en el navegador desde iPhone y ordenador. · Join the Garlic Legends beta on Android, or play free in your browser." />
+    <meta name="theme-color" content="#140a1f" />
+    <link rel="icon" href="../icon.png" />
+    <link rel="apple-touch-icon" href="../icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Garlic Legends: IDLE RPG · Beta" />
+    <meta property="og:description" content="¡Prueba el juego antes que nadie! · Be one of the first to play!" />
+    <meta property="og:image" content="https://ivanredondogarcia.github.io/garlic-legends/assets/beta_banner.jpg" />
+    <meta property="og:url" content="https://ivanredondogarcia.github.io/garlic-legends/beta/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700;800&family=Cinzel:wght@600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #140a1f;
+        --panel: #251638;
+        --panel2: #2f1d47;
+        --line: rgba(255, 211, 92, 0.3);
+        --gold: #ffd35c;
+        --gold2: #ffb627;
+        --text: #f2eaf7;
+        --muted: #cfc3dc;
+        --green: #9be38a;
+        --red: #ff8a80;
+        --android: #3ddc84;
+        --discord: #5865f2;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: radial-gradient(ellipse at top, #2a1442 0%, var(--bg) 60%) fixed, var(--bg);
+        color: var(--text);
+        font-family: 'Alegreya Sans', 'Segoe UI', Roboto, sans-serif;
+        font-size: 18px;
+        line-height: 1.55;
+      }
+      a { color: var(--gold); }
+      .lang-es [data-lang='en'], .lang-en [data-lang='es'] { display: none !important; }
+      .wrap { max-width: 760px; margin: 0 auto; padding: 16px 16px 48px; }
+      .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+      .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-family: 'Cinzel', serif; font-weight: 700; }
+      .brand img { width: 36px; height: 36px; border-radius: 9px; }
+      .langbtn { background: var(--panel2); color: var(--text); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font: inherit; font-weight: 700; cursor: pointer; }
+      .banner { width: 100%; border-radius: 18px; border: 2px solid var(--line); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); display: block; }
+      h1 { font-family: 'Cinzel', serif; color: var(--gold); text-align: center; font-size: clamp(30px, 7vw, 46px); margin: 22px 0 6px; text-shadow: 0 3px 0 #3a0a18; }
+      .lead { text-align: center; color: var(--muted); margin: 0 auto 22px; max-width: 600px; }
+      .card { background: linear-gradient(180deg, var(--panel2), var(--panel)); border: 1px solid var(--line); border-radius: 18px; padding: 20px; margin: 18px 0; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35); }
+      .card h2 { margin: 0 0 6px; font-family: 'Cinzel', serif; font-size: 24px; display: flex; align-items: center; gap: 10px; }
+      .card h2 .tag { font-family: 'Alegreya Sans', sans-serif; font-size: 14px; font-weight: 800; padding: 2px 10px; border-radius: 999px; }
+      .android .tag { background: var(--android); color: #06341b; }
+      .ios .tag { background: #e8e8f0; color: #222; }
+      ol { padding-left: 22px; margin: 10px 0; }
+      ol li { margin: 8px 0; }
+      form { display: flex; flex-direction: column; gap: 10px; margin: 12px 0 4px; }
+      input[type='email'] { font: inherit; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--line); background: #140a1f; color: var(--text); width: 100%; }
+      input[type='email']:focus { outline: none; border-color: var(--gold); }
+      .consent { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; color: var(--muted); }
+      .consent input { margin-top: 4px; width: 18px; height: 18px; flex: none; }
+      .btn { display: inline-block; text-align: center; text-decoration: none; font: inherit; font-weight: 800; font-size: 19px; border: none; border-radius: 12px; padding: 12px 18px; cursor: pointer; }
+      .btn.gold { background: linear-gradient(180deg, var(--gold), var(--gold2)); color: #3a1d00; box-shadow: 0 4px 0 #9a5a00; }
+      .btn.green { background: var(--android); color: #06341b; box-shadow: 0 4px 0 #1f8a50; }
+      .btn.discord { background: var(--discord); color: #fff; box-shadow: 0 4px 0 #3640a8; }
+      .btn:disabled { opacity: 0.6; cursor: wait; }
+      .msg { font-weight: 700; min-height: 1.4em; margin: 4px 0 0; }
+      .msg.ok { color: var(--green); }
+      .msg.err { color: var(--red); }
+      .after { display: none; border-top: 1px dashed var(--line); margin-top: 14px; padding-top: 10px; }
+      .after.show { display: block; }
+      .small { font-size: 15px; color: var(--muted); }
+      .row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+      footer { text-align: center; margin-top: 28px; color: var(--muted); font-size: 15px; }
+      footer a { margin: 0 8px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="top">
+        <a class="brand" href="../"><img src="../icon.png" alt="" />Garlic Legends</a>
+        <button class="langbtn" id="lang" type="button">EN</button>
+      </div>
+
+      <img class="banner" src="../assets/beta_banner.jpg" alt="Garlic Legends: IDLE RPG" />
+
+      <h1><span data-lang="es">¡Únete a la beta!</span><span data-lang="en">Join the beta!</span></h1>
+      <p class="lead">
+        <span data-lang="es">Un ajo valiente contra el Conde Vampiro: 15 zonas, jefes, mascotas, monturas y clanes. ¡Pruébalo antes que nadie y ayúdanos a mejorarlo!</span>
+        <span data-lang="en">A brave garlic vs. the Vampire Count: 15 zones, bosses, pets, mounts and clans. Play it before anyone else and help us make it better!</span>
+      </p>
+
+      <section class="card android">
+        <h2>📱 Android <span class="tag" data-lang="es">Google Play</span><span class="tag" data-lang="en">Google Play</span></h2>
+        <ol>
+          <li>
+            <span data-lang="es">Deja aquí tu <strong>Gmail</strong> (el de la cuenta que usas en Google Play):</span>
+            <span data-lang="en">Leave your <strong>Gmail</strong> here (the account you use on Google Play):</span>
+            <form id="form" novalidate>
+              <input type="email" id="email" autocomplete="email" placeholder="tu.correo@gmail.com" required />
+              <label class="consent">
+                <input type="checkbox" id="consent" />
+                <span data-lang="es">Acepto que guardéis mi correo solo para darme acceso a la prueba (se borra al publicar el juego). <a href="../privacy.html" target="_blank">Privacidad</a></span>
+                <span data-lang="en">I agree that my email is stored only to give me access to the test (it is deleted when the game is released). <a href="../privacy.html" target="_blank">Privacy</a></span>
+              </label>
+              <button class="btn gold" id="send" type="submit"><span data-lang="es">¡Apuntarme!</span><span data-lang="en">Sign me up!</span></button>
+            </form>
+            <p class="msg" id="msg"></p>
+          </li>
+          <li>
+            <span data-lang="es">En unas horas te añadimos. Entonces abre este enlace <strong>con esa misma cuenta</strong> y pulsa <strong>«Convertirse en tester»</strong>:</span>
+            <span data-lang="en">We'll add you within a few hours. Then open this link <strong>with that same account</strong> and tap <strong>"Become a tester"</strong>:</span>
+            <div class="row"><a class="btn green" href="https://play.google.com/apps/testing/com.garliclegends.idlerpg" target="_blank" rel="noopener"><span data-lang="es">Convertirme en tester</span><span data-lang="en">Become a tester</span></a></div>
+            <p class="small"><span data-lang="es">Si te dice que no tienes acceso, aún no te hemos añadido: vuelve a probar un poco más tarde.</span><span data-lang="en">If it says you don't have access, we haven't added you yet: try again a bit later.</span></p>
+          </li>
+          <li>
+            <span data-lang="es">Descárgalo de Google Play y <strong>no lo desinstales en 14 días</strong> (Google lo exige antes de publicarlo). ¡Jugar es opcional, pero nos encantaría saber qué te parece!</span>
+            <span data-lang="en">Install it from Google Play and <strong>keep it installed for 14 days</strong> (Google requires it before release). Playing is optional, but we'd love your feedback!</span>
+            <div class="row"><a class="btn green" href="https://play.google.com/store/apps/details?id=com.garliclegends.idlerpg" target="_blank" rel="noopener"><span data-lang="es">Abrir en Google Play</span><span data-lang="en">Open in Google Play</span></a></div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="card ios">
+        <h2>🍎 iPhone · iPad · PC <span class="tag" data-lang="es">Navegador</span><span class="tag" data-lang="en">Browser</span></h2>
+        <p>
+          <span data-lang="es">Juega gratis en el navegador, sin instalar nada y con la misma partida si conectas tu cuenta de Google.</span>
+          <span data-lang="en">Play free in your browser, nothing to install, and keep the same progress if you link your Google account.</span>
+        </p>
+        <div class="row"><a class="btn gold" href="../play/"><span data-lang="es">▶ Jugar ahora</span><span data-lang="en">▶ Play now</span></a></div>
+        <p class="small">
+          <span data-lang="es">En iPhone: ábrelo en Safari → botón <strong>Compartir</strong> → <strong>«Añadir a pantalla de inicio»</strong> y tendrás el icono como una app.</span>
+          <span data-lang="en">On iPhone: open it in Safari → <strong>Share</strong> → <strong>"Add to Home Screen"</strong> to get an app icon.</span>
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>💬 <span data-lang="es">Únete a la comunidad</span><span data-lang="en">Join the community</span></h2>
+        <p>
+          <span data-lang="es">Novedades, códigos de regalo y un sitio para contarnos fallos e ideas.</span>
+          <span data-lang="en">News, gift codes and a place to report bugs and share ideas.</span>
+        </p>
+        <div class="row">
+          <a class="btn discord" href="https://discord.gg/Q7ATe9JPTj" target="_blank" rel="noopener">Discord</a>
+          <a class="btn gold" href="https://youtu.be/ndVS8KVC2X8" target="_blank" rel="noopener"><span data-lang="es">Ver el tráiler</span><span data-lang="en">Watch the trailer</span></a>
+        </div>
+      </section>
+
+      <footer>
+        <a href="../"><span data-lang="es">Web del juego</span><span data-lang="en">Game website</span></a> ·
+        <a href="../privacy.html"><span data-lang="es">Privacidad</span><span data-lang="en">Privacy</span></a> ·
+        <a href="mailto:garliclegendscontact@gmail.com">garliclegendscontact@gmail.com</a>
+      </footer>
+    </div>
+
+    <script>
+      // Idioma: el del navegador (español si empieza por "es"), con botón para cambiarlo
+      const root = document.documentElement;
+      const setLang = (l) => {
+        root.className = 'lang-' + l;
+        root.lang = l;
+        document.getElementById('lang').textContent = l === 'es' ? 'EN' : 'ES';
+        document.getElementById('email').placeholder = l === 'es' ? 'tu.correo@gmail.com' : 'your.email@gmail.com';
+      };
+      let lang = (navigator.language || 'es').toLowerCase().startsWith('es') ? 'es' : 'en';
+      setLang(lang);
+      document.getElementById('lang').onclick = () => setLang((lang = lang === 'es' ? 'en' : 'es'));
+
+      // Guardar el correo en la nube del juego (Firestore): betaSignups/<correo>, solo si no estaba ya.
+      // Las reglas de seguridad solo dejan crear (nadie más puede leerlo salvo nosotros).
+      const KEY = 'AIzaSyAbz1RW_sJQ1UbGqOyPbBI8_Rb8i6q9ptM';
+      const DOCS = 'projects/garlic-legends/databases/(default)/documents';
+      const URL_COMMIT = 'https://firestore.googleapis.com/v1/' + DOCS + ':commit?key=' + KEY;
+      const T = {
+        es: { bad: 'Escribe un correo válido.', consent: 'Marca la casilla para poder apuntarte.', ok: '¡Listo! Te añadiremos en unas horas. Mientras, sigue con el paso 2 más tarde.', dup: 'Ese correo ya estaba apuntado. ¡Sigue con el paso 2!', err: 'No se pudo enviar. Revisa tu conexión e inténtalo otra vez.' },
+        en: { bad: 'Please enter a valid email.', consent: 'Tick the box to sign up.', ok: "Done! We'll add you within a few hours. Then come back for step 2.", dup: 'That email was already signed up. Go on to step 2!', err: "Couldn't send it. Check your connection and try again." },
+      };
+      const form = document.getElementById('form');
+      const msg = document.getElementById('msg');
+      const send = document.getElementById('send');
+      const show = (text, ok) => {
+        msg.textContent = text;
+        msg.className = 'msg ' + (ok ? 'ok' : 'err');
+      };
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value.trim().toLowerCase();
+        if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(email) || email.length > 100) return show(T[lang].bad, false);
+        if (!document.getElementById('consent').checked) return show(T[lang].consent, false);
+        send.disabled = true;
+        try {
+          const r = await fetch(URL_COMMIT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              writes: [{
+                update: { name: DOCS + '/betaSignups/' + email, fields: { email: { stringValue: email }, lang: { stringValue: lang }, platform: { stringValue: 'android' } } },
+                updateTransforms: [{ fieldPath: 'at', setToServerValue: 'REQUEST_TIME' }],
+                currentDocument: { exists: false },
+              }],
+            }),
+          });
+          if (r.ok) show(T[lang].ok, true);
+          else if (r.status === 409 || r.status === 400) show(T[lang].dup, true);
+          else show(T[lang].err, false);
+        } catch {
+          show(T[lang].err, false);
+        }
+        send.disabled = false;
+      });
+    </script>
+  </body>
+</html>
