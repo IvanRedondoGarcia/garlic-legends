@@ -6,19 +6,21 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
-    <meta name="theme-color" content="#1a0f24" />
+    <meta name="theme-color" content="#0b0a16" />
     <link rel="icon" type="image/png" href="./favicon.png" />
     <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
     <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="preload" href="./lancegames-logo.webp" as="image" />
+    <link rel="preload" href="./lancegames-font.woff2" as="font" type="font/woff2" crossorigin />
     <title>Garlic Legends: IDLE RPG</title>
-    <style>html,body{touch-action:none;-webkit-user-select:none;user-select:none;background:#1a0f24;width:100%;height:100%;margin:0;padding:0;overflow:hidden}#game{z-index:1;width:100%;height:100%;position:relative}#side-fill{z-index:0;filter:blur(24px)brightness(.5)saturate(1.15);background:#1a0f24 50%/cover no-repeat;transition:background-image .6s;position:fixed;inset:-40px}#loading{z-index:10;background:radial-gradient(circle at 50% 42%,#3a1d55 0%,#1a0f24 62%);flex-direction:column;justify-content:center;align-items:center;gap:18px;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;transition:opacity .45s;display:flex;position:fixed;inset:0}#loading.hidden{opacity:0;pointer-events:none}#loading img{border-radius:30px;width:132px;height:132px;animation:1.6s ease-in-out infinite loading-bob;box-shadow:0 0 40px #c178ff8c}#loading .name{color:#fff;letter-spacing:.5px;text-shadow:0 3px #2a0f3d,0 0 18px #c178ff99;font-size:30px;font-weight:800}#loading .bar{background:#ffffff1f;border:2px solid #e8b84a;border-radius:7px;width:min(70vw,320px);height:14px;overflow:hidden}#loading .fill{background:linear-gradient(90deg,#9b4fd6,#f0c95a);width:4%;height:100%;transition:width .25s}@keyframes loading-bob{50%{transform:translateY(-8px)scale(1.03)}}</style>
-    <script type="module" crossorigin src="./assets/index-BfwUMdDY.js"></script>
+    <style>html,body{touch-action:none;-webkit-user-select:none;user-select:none;background:#0b0a16;width:100%;height:100%;margin:0;padding:0;overflow:hidden}#game{z-index:1;width:100%;height:100%;position:relative}#side-fill{z-index:0;filter:blur(24px)brightness(.5)saturate(1.15);background:#1a0f24 50%/cover no-repeat;transition:background-image .6s;position:fixed;inset:-40px}@font-face{font-family:LanceGames;font-weight:800;font-display:block;src:url(./lancegames-font.woff2)format("woff2")}#loading{z-index:10;background:radial-gradient(circle at 50% 44%,#1d1640 0%,#0b0a16 58%);flex-direction:column;justify-content:center;align-items:center;transition:opacity .5s;display:flex;position:fixed;inset:0}#loading.hidden{opacity:0;pointer-events:none}#loading .logo{opacity:0;width:132px;height:192px;animation:.9s cubic-bezier(.2,.8,.2,1) .1s forwards lg-in;position:relative;transform:scale(.9)}#loading .logo:before{content:"";background:radial-gradient(circle,#8c74ff73 0%,#8c74ff00 65%);border-radius:50%;animation:2.6s ease-in-out infinite lg-glow;position:absolute;inset:-60px}#loading .logo img{object-fit:contain;width:100%;height:100%;position:relative}#loading .name{color:#f4f1ff;letter-spacing:.5px;opacity:0;margin-top:22px;font-family:LanceGames,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:34px;font-weight:800;animation:.8s ease-out .45s forwards lg-in;transform:translateY(8px)}#loading .bar{opacity:0;background:#f4f1ff1f;border-radius:2px;width:min(52vw,220px);height:4px;margin-top:34px;animation:.6s ease-out .8s forwards lg-in;overflow:hidden}#loading .fill{background:linear-gradient(90deg,#8c74ff,#f5a524);border-radius:2px;width:4%;height:100%;transition:width .35s}@keyframes lg-in{to{opacity:1;transform:none}}@keyframes lg-glow{50%{opacity:.55;transform:scale(.92)}}</style>
+    <script type="module" crossorigin src="./assets/index-C37-MITp.js"></script>
   </head>
   <body>
     <div id="game"></div>
     <div id="loading">
-      <img src="./icon-192.png" alt="" />
-      <div class="name">Garlic Legends</div>
+      <div class="logo"><img src="./lancegames-logo.webp" alt="" /></div>
+      <div class="name">LanceGames</div>
       <div class="bar"><div class="fill"></div></div>
     </div>
     <script>
@@ -26,15 +28,21 @@
       (function () {
         var el = document.getElementById('loading');
         var fill = el.querySelector('.fill');
+        var shownAt = performance.now();
         window.__loading = {
           set: function (p) {
             fill.style.width = Math.max(4, Math.min(100, Math.round(p * 100))) + '%';
           },
           done: function () {
-            el.classList.add('hidden');
+            // El logo se ve al menos 1,8 s aunque todo cargue antes (si no, sería un parpadeo)
+            var wait = Math.max(0, 1800 - (performance.now() - shownAt));
             setTimeout(function () {
-              el.remove();
-            }, 600);
+              fill.style.width = '100%';
+              el.classList.add('hidden');
+              setTimeout(function () {
+                el.remove();
+              }, 650);
+            }, wait);
           },
         };
       })();
