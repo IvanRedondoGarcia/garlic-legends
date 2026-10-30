@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./web-D2Vopq5i.js","./index-fCTXE_q3.js"])))=>i.map(i=>d[i]);
+import{a as e,t}from"./index-fCTXE_q3.js";var n=e(`FirebaseCrashlytics`,{web:()=>t(()=>import(`./web-D2Vopq5i.js`).then(e=>new e.FirebaseCrashlyticsWeb),__vite__mapDeps([0,1]),import.meta.url)});export{n as FirebaseCrashlytics};

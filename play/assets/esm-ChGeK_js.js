@@ -1,2 +1,0 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./web-nrP3bQvV.js","./index-DnMdZ_QR.js"])))=>i.map(i=>d[i]);
-import{a as e,t}from"./index-DnMdZ_QR.js";var n=e(`FirebaseCrashlytics`,{web:()=>t(()=>import(`./web-nrP3bQvV.js`).then(e=>new e.FirebaseCrashlyticsWeb),__vite__mapDeps([0,1]),import.meta.url)});export{n as FirebaseCrashlytics};
