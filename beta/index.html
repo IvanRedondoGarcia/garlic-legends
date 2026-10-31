@@ -170,11 +170,9 @@
       setLang(lang);
       document.getElementById('lang').onclick = () => setLang((lang = lang === 'es' ? 'en' : 'es'));
 
-      // Guardar el correo en la nube del juego (Firestore): betaSignups/<correo>, solo si no estaba ya.
-      // Las reglas de seguridad solo dejan crear (nadie más puede leerlo salvo nosotros).
-      const KEY = 'AIzaSyAbz1RW_sJQ1UbGqOyPbBI8_Rb8i6q9ptM';
-      const DOCS = 'projects/garlic-legends/databases/(default)/documents';
-      const URL_COMMIT = 'https://firestore.googleapis.com/v1/' + DOCS + ':commit?key=' + KEY;
+      // Guardar el correo en la nube del juego (betaSignups/<correo>) a través del servidor (functions/src/beta.ts, 1.8.2):
+      // comprueba el correo y deja apuntar pocos por conexión y hora. Nadie más puede leerlo salvo nosotros.
+      const URL_SIGNUP = 'https://europe-west1-garlic-legends.cloudfunctions.net/betaSignup';
       const T = {
         es: { bad: 'Escribe un correo válido.', consent: 'Marca la casilla para poder apuntarte.', ok: '¡Listo! Te añadiremos en unas horas. Mientras, sigue con el paso 2 más tarde.', dup: 'Ese correo ya estaba apuntado. ¡Sigue con el paso 2!', err: 'No se pudo enviar. Revisa tu conexión e inténtalo otra vez.' },
         en: { bad: 'Please enter a valid email.', consent: 'Tick the box to sign up.', ok: "Done! We'll add you within a few hours. Then come back for step 2.", dup: 'That email was already signed up. Go on to step 2!', err: "Couldn't send it. Check your connection and try again." },
@@ -193,19 +191,15 @@
         if (!document.getElementById('consent').checked) return show(T[lang].consent, false);
         send.disabled = true;
         try {
-          const r = await fetch(URL_COMMIT, {
+          const r = await fetch(URL_SIGNUP, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              writes: [{
-                update: { name: DOCS + '/betaSignups/' + email, fields: { email: { stringValue: email }, lang: { stringValue: lang }, platform: { stringValue: 'android' } } },
-                updateTransforms: [{ fieldPath: 'at', setToServerValue: 'REQUEST_TIME' }],
-                currentDocument: { exists: false },
-              }],
-            }),
+            body: JSON.stringify({ email, lang, consent: true }),
           });
-          if (r.ok) show(T[lang].ok, true);
-          else if (r.status === 409 || r.status === 400) show(T[lang].dup, true);
+          const j = await r.json().catch(() => ({}));
+          if (j.ok) show(T[lang].ok, true);
+          else if (j.dup) show(T[lang].dup, true);
+          else if (r.status === 400) show(T[lang].bad, false);
           else show(T[lang].err, false);
         } catch {
           show(T[lang].err, false);
