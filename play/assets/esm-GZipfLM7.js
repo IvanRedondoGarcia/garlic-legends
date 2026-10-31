@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./web-mwZnryuU.js","./index-d_te_wRL.js","./index.esm-zIahBD9v.js","./index.esm-D99lzpzX.js","./index.esm-ChT4ARAY.js"])))=>i.map(i=>d[i]);
+import{a as e,t}from"./index-d_te_wRL.js";var n=e(`FirebaseAppCheck`,{web:()=>t(()=>import(`./web-mwZnryuU.js`).then(e=>new e.FirebaseAppCheckWeb),__vite__mapDeps([0,1,2,3,4]),import.meta.url)});export{n as FirebaseAppCheck};

@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./web-Nojzf6-r.js","./index-d_te_wRL.js"])))=>i.map(i=>d[i]);
+import{a as e,t}from"./index-d_te_wRL.js";var n=e(`App`,{web:()=>t(()=>import(`./web-Nojzf6-r.js`).then(e=>new e.AppWeb),__vite__mapDeps([0,1]),import.meta.url)});export{n as App};
