@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./web-Cf_IbbpA.js","./index-D3kDMR_Q.js"])))=>i.map(i=>d[i]);
+import{s as e,t}from"./index-D3kDMR_Q.js";var n=e(`AppReview`,{web:()=>t(()=>import(`./web-Cf_IbbpA.js`).then(e=>new e.AppReviewWeb),__vite__mapDeps([0,1]),import.meta.url)});export{n as AppReview};
