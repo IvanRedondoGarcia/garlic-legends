@@ -1,2 +1,0 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./web-CPk3x08x.js","./index-C-ibRR2J.js"])))=>i.map(i=>d[i]);
-import{s as e,t}from"./index-C-ibRR2J.js";var n=e(`AppReview`,{web:()=>t(()=>import(`./web-CPk3x08x.js`).then(e=>new e.AppReviewWeb),__vite__mapDeps([0,1]),import.meta.url)});export{n as AppReview};
